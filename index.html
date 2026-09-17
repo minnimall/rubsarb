@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUBSARB</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/assets/images/favicon (1).ico">
+
+    <link href="/dist/output.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Prompt:wght@300;400;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        section[id] {
+            scroll-margin-top: 64px; /* เท่ากับความสูง navbar (h-16) กันไม่ให้หัวข้อโดนเมนูบัง */
+        }
+
+        /* ===== Scroll reveal ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Logo marquee (categories) ===== */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 22s linear infinite;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900">
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="sticky top-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+
+                <a href="#" class="flex items-center gap-2">
+                    <img src="/assets/images/favicon-32x32.png" alt="RUBSARB" class="w-9 h-9 rounded-full">
+                    <span class="text-lg font-extrabold tracking-tight">RUBSARB</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                    <a href="#members" class="hover:text-slate-900 transition">สมาชิกทั้งหมด</a>
+                    <a href="#categories" class="hover:text-slate-900 transition">หมวดหมู่รายการ</a>
+                    <a href="#watch" class="hover:text-slate-900 transition">ช่องทางรับชม</a>
+                    <a href="#contact" class="hover:text-slate-900 transition">ติดต่องาน</a>
+                </div>
+
+                <button id="menu-btn" class="md:hidden p-2" aria-label="เปิดเมนู">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden pb-4 flex flex-col gap-3 text-sm font-medium text-slate-600">
+                <a href="#members" class="hover:text-slate-900 transition">สมาชิกทั้งหมด</a>
+                <a href="#categories" class="hover:text-slate-900 transition">หมวดหมู่รายการ</a>
+                <a href="#watch" class="hover:text-slate-900 transition">ช่องทางรับชม</a>
+                <a href="#contact" class="hover:text-slate-900 transition">ติดต่องาน</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ BANNER ============ -->
+    <section class="w-full">
+        <img src="/assets/images/channels4_banner.jpg" alt="RUBSARB Channel Banner" class="w-full h-80 object-cover">
+    </section>
+
+    <!-- ============ CHANNEL STATS ============ -->
+    <section id="stats" class="bg-white pt-16 pb-8 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-3 gap-6 sm:gap-12">
+
+                <div class="text-center">
+                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900" data-target="1710000" data-suffix="+" data-format="compact">0</p>
+                    <p class="text-slate-400 mt-2 text-xs font-medium uppercase tracking-widest">ผู้ติดตาม</p>
+                </div>
+
+                <div class="text-center">
+                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900" data-target="2431" data-format="int">0</p>
+                    <p class="text-slate-400 mt-2 text-xs font-medium uppercase tracking-widest">วิดีโอทั้งหมด</p>
+                </div>
+
+                <div class="text-center">
+                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900" data-target="1049988944" data-format="compact">0</p>
+                    <p class="text-slate-400 mt-2 text-xs font-medium uppercase tracking-widest">การดูรวม</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ MEMBERS ============ -->
+    <section id="members" class="bg-white pt-8 pb-20 reveal">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="w-8 h-0.5 bg-slate-500"></span>
+                <span class="text-xs font-semibold uppercase tracking-widest text-slate-400">Members</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-2">สมาชิกทั้งหมด</h2>
+            <p class="text-slate-500 mb-12">ครอบครัวรับทราบ ทีมงานที่อยู่เบื้องหลังทุกคอนเทนต์</p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
+
+                <!-- Member card template — คัดลอกบล็อกนี้สำหรับแต่ละคน -->
+                <!-- ตั้งชื่อไฟล์รูปตาม slug ใน src เช่น george.png, isora.png (พื้นหลังโปร่งใสจะสวยสุด) -->
+
+                <!-- ===== แสดงเสมอ (12 คนแรก) ===== -->
+
+                <a href="https://instagram.com/gg.georgie" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/georgie.png" alt="จอร์จ"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">จ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">จอร์จ</p>
+                        <p class="text-white/70 text-xs">@gg.georgie</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/isora.hata" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/isora2.png" alt="อิสระ"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">อ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">อิสระ</p>
+                        <p class="text-white/70 text-xs">@isora.hata</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/louisstryx" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/louis.png" alt="หลุยส์"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ห</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">หลุยส์</p>
+                        <p class="text-white/70 text-xs">@louisstryx</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/j3chatuajing" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/job.png" alt="จ๊อบ"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">จ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">จ๊อบ</p>
+                        <p class="text-white/70 text-xs">@j3chatuajing</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/tk.tonkla" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/tonkla.png" alt="ต้นกล้า"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ต</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ต้นกล้า</p>
+                        <p class="text-white/70 text-xs">@tk.tonkla</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/jewsippothai" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/jiw.png" alt="จิ๋ว"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">จ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">จิ๋ว</p>
+                        <p class="text-white/70 text-xs">@jewsippothai</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/genghis.khanz" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/jeng.png" alt="เจง"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">จ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">เจง</p>
+                        <p class="text-white/70 text-xs">@genghis.khanz</p>
+                    </div>
+                </a>
+
+                <a href="https://www.instagram.com/juii____/" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/jui.png" alt="จุ้ย"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">จ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">จุ้ย</p>
+                        <p class="text-white/70 text-xs">@juii____</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/night_rupert" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/night.png" alt="ไนท"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">น</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ไนท</p>
+                        <p class="text-white/70 text-xs">@night_rupert</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/mickpsy" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/mick.png" alt="มิก"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ม</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">มิก</p>
+                        <p class="text-white/70 text-xs">@mickpsy</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/ottoishappy" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/otto.png" alt="อ็อตโต้"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">อ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">อ็อตโต้</p>
+                        <p class="text-white/70 text-xs">@ottoishappy</p>
+                    </div>
+                </a>
+
+                <a href="https://www.instagram.com/3opland" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/top.png" alt="ท็อป"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ท</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ท็อป</p>
+                        <p class="text-white/70 text-xs">@3opland</p>
+                    </div>
+                </a>
+
+                <!-- ===== ซ่อนไว้ก่อน กดปุ่ม "ดูสมาชิกทั้งหมด" ถึงจะโชว์ (13 คนที่เหลือ) ===== -->
+                <div id="extra-members" class="hidden">
+
+                <a href="https://instagram.com/sudrid" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/mike.png" alt="ไมค์"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ม</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ไมค์</p>
+                        <p class="text-white/70 text-xs">@sudrid</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/cw.edit" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/boss.png" alt="บอส"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">บ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">บอส</p>
+                        <p class="text-white/70 text-xs">@cw.edit</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/mintyisy" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/mint.png" alt="มิ้นท์"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ม</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">มิ้นท์</p>
+                        <p class="text-white/70 text-xs">@mintyisy</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/ome_chonlathit_suksumneang" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/ome.png" alt="โอม"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">อ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">โอม</p>
+                        <p class="text-white/70 text-xs">@ome_chonlathit_suksumneang</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/mistercatx_" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/jay.png" alt="เจย์"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">จ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">เจย์</p>
+                        <p class="text-white/70 text-xs">@mistercatx_</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/jaxnattha" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/ja.png" alt="จ๋า"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">จ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">จ๋า</p>
+                        <p class="text-white/70 text-xs">@jaxnattha</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/artisty_tk" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/art.png" alt="อาร์ต"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">อ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">อาร์ต</p>
+                        <p class="text-white/70 text-xs">@artisty_tk</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/aomsinwarisa" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/omsin.png" alt="ออมสิน"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">อ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ออมสิน</p>
+                        <p class="text-white/70 text-xs">@aomsinwarisa</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/mlnmail" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/mel.png" alt="เมล"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ม</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">เมล</p>
+                        <p class="text-white/70 text-xs">@mlnmail</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/_tongjai" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/tongjai.png" alt="ต้องใจ"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ต</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ต้องใจ</p>
+                        <p class="text-white/70 text-xs">@_tongjai</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/lycka_rr" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/aomaom.png" alt="ออมออม"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">อ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ออมออม</p>
+                        <p class="text-white/70 text-xs">@lycka_rr</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/pemaybepeter" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/pee.png" alt="พี"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">พ</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">พี</p>
+                        <p class="text-white/70 text-xs">@pemaybepeter</p>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/djairyuryu" target="_blank" class="group relative aspect-[3/4] rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden">
+                    <img src="/assets/images/members/ryu.png" alt="ริว"
+                         class="absolute inset-0 w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-500"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden absolute inset-0 items-center justify-center text-5xl font-bold text-slate-400">ร</div>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-3 pt-10 pb-3">
+                        <p class="text-white font-semibold text-sm">ริว</p>
+                        <p class="text-white/70 text-xs">@djairyuryu</p>
+                    </div>
+                </a>
+
+                </div> <!-- ปิด #extra-members -->
+
+            </div>
+
+            <div class="text-center mt-10">
+                <button id="toggle-members-btn" onclick="toggleMembers()"
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 font-semibold text-sm hover:border-slate-900 hover:bg-slate-50 transition">
+                    <span id="toggle-members-text">ดูสมาชิกทั้งหมด</span>
+                    <svg id="toggle-members-icon" class="w-4 h-4 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+        <!-- ============ CATEGORIES (LOGO MARQUEE) ============ -->
+    <section id="categories" class="bg-slate-900 py-20 overflow-hidden reveal">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="w-8 h-0.5 bg-slate-500"></span>
+                <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Categories</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-2">หมวดหมู่รายการ</h2>
+            <p class="text-slate-400">คอนเทนต์หลากหลายรูปแบบที่ RUBSARB นำเสนอ</p>
+        </div>
+
+        <div class="relative [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+            <div class="marquee-track">
+                <!-- ชุดที่ 1 -->
+                <div class="flex items-center gap-8 px-4 shrink-0">
+                    <img src="/assets/images/categories/logoggcooking.png" alt="GG Cooking" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoblackfriday.png" alt="Black Friday" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logorubsardแคสเสร็จ.jpg" alt="Rubsarb แคสเสร็จ" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoคืนพุธ.jpg" alt="คืนพุธ มุดผ้าห่ม" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoboardgame.png" alt="Board Game" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logolivestreaming.png" alt="Live Streaming" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logogamingcasting.png" alt="Gaming Casting" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoslashdrinks.png" alt="Slash Drinks" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                </div>
+                <!-- ชุดที่ 2 (สำเนา — เพื่อให้ loop ต่อเนื่องไม่มีรอยต่อ) -->
+                <div class="flex items-center gap-8 px-4 shrink-0" aria-hidden="true">
+                    <img src="/assets/images/categories/logoggcooking.png" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoblackfriday.png" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logorubsardแคสเสร็จ.jpg" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoคืนพุธ.jpg" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoboardgame.png" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logolivestreaming.png" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logogamingcasting.png" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                    <img src="/assets/images/categories/logoslashdrinks.png" alt="" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-white/10">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ WATCH CHANNELS ============ -->
+    <section id="watch" class="bg-white py-20 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="w-8 h-0.5 bg-slate-500"></span>
+                <span class="text-xs font-semibold uppercase tracking-widest text-slate-400">Channels</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-2">ช่องทางรับชม</h2>
+            <p class="text-slate-500 mb-12">ติดตามคอนเทนต์ของ RUBSARB ได้ทุกแพลตฟอร์ม</p>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+                <a href="https://www.youtube.com/@RUBSARBproduction" target="_blank"
+                   class="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-slate-900 hover:bg-slate-50 transition">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
+                        <img src="/assets/images/logochannel/logorubsarbyoutube.png" alt="YouTube" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <p class="font-semibold">RUBSARB (ช่องหลัก)</p>
+                        <p class="text-sm text-slate-500">youtube.com/@RUBSARBproduction</p>
+                    </div>
+                </a>
+
+                <a href="https://www.facebook.com/Rubsarb" target="_blank"
+                   class="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-slate-900 hover:bg-slate-50 transition">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
+                        <img src="/assets/images/logochannel/logorubsarbyoutube.png" alt="Facebook" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <p class="font-semibold">Facebook</p>
+                        <p class="text-sm text-slate-500">facebook.com/Rubsarb</p>
+                    </div>
+                </a>
+
+                <a href="https://www.twitch.tv/rubsarb" target="_blank"
+                   class="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-slate-900 hover:bg-slate-50 transition">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
+                        <img src="/assets/images/logochannel/logorubsarb-twitch.png" alt="Twitch" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <p class="font-semibold">Twitch</p>
+                        <p class="text-sm text-slate-500">twitch.tv/rubsarb</p>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/@rubsarbcassette" target="_blank"
+                   class="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-slate-900 hover:bg-slate-50 transition">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
+                        <img src="/assets/images/logochannel/logorubsardแคสเสร็จ.jpg" alt="Rubsarb แคสเสร็จ" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <p class="font-semibold">Rubsarb แคสเสร็จ</p>
+                        <p class="text-sm text-slate-500">youtube.com/@rubsarbcassette</p>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/@wednesdaynight" target="_blank"
+                   class="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-slate-900 hover:bg-slate-50 transition sm:col-span-2">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
+                        <img src="/assets/images/logochannel/logoคืนพุธ.jpg" alt="คืนพุธ มุดผ้าห่ม" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <p class="font-semibold">คืนพุธ มุดผ้าห่ม [ Official ]</p>
+                        <p class="text-sm text-slate-500">youtube.com/@wednesdaynight</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ MOOD BANNER ============ -->
+    <section class="relative w-full aspect-[2048/779] overflow-hidden reveal">
+        <img src="/assets/images/bg_rubsarb.jpg" alt="RUBSARB Vibe" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <div class="text-center px-4">
+                <p class="text-white text-2xl sm:text-4xl font-extrabold tracking-tight drop-shadow-lg">พร้อมร่วมงานกับพวกเราแล้วหรือยัง</p>
+                <a href="#contact" class="inline-block mt-4 px-6 py-2.5 bg-white text-slate-900 rounded-full font-semibold text-sm hover:bg-slate-100 transition">
+                    ติดต่อเราเลย
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="bg-slate-50 py-20 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-8 h-0.5 bg-slate-500"></span>
+                        <span class="text-xs font-semibold uppercase tracking-widest text-slate-400">Contact</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-2">ติดต่องาน</h2>
+                    <p class="text-slate-500">ติดต่องานรับทราบได้ที่</p>
+                </div>
+
+                <div class="w-40 sm:w-48 rounded-2xl overflow-hidden border border-slate-200 shadow-sm shrink-0">
+                    <div class="tenor-gif-embed" data-postid="3522992730246261066" data-share-method="host" data-aspect-ratio="1.47337" data-width="100%"><a href="https://tenor.com/view/genghiskhanz-j3cha-rubsarb-gif-3522992730246261066">Genghiskhanz J3cha GIF</a>from <a href="https://tenor.com/search/genghiskhanz-gifs">Genghiskhanz GIFs</a></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 p-8">
+                <div class="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+
+                    <div class="flex items-start gap-4 pb-6 sm:pb-0 border-b sm:border-b-0 border-slate-100">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white flex-shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-10.5 6.3-10.5-6.3z"/>
+                                <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l10.5 6.3 10.5-6.3z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">Email</p>
+                            <a href="mailto:rubsarbproduction@gmail.com" class="text-base hover:underline break-all">
+                                rubsarbproduction@gmail.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 pb-6 sm:pb-0 border-b sm:border-b-0 border-slate-100">
+                        <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white flex-shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.477 2 2 5.94 2 10.8c0 2.85 1.55 5.38 3.95 6.99-.13.46-.83 2.87-.86 3.05-.03.18.07.35.24.35.07 0 .14-.02.2-.07l3.58-2.37c.68.1 1.38.15 2.06.15 5.523 0 10-3.94 10-8.8S17.523 2 12 2zm-4.36 10.8H6.1V8.4h1.02v3.4h1.52v1zm2.36 0h-1.02V8.4h1.02v4.4zm4.55-4.4v1H12.6v.75h1.95v1H12.6v.75h1.95v1h-2.97V8.4h2.97zm3.68 4.4h-.98l-2.02-2.75v2.75h-1.02V8.4h.98l2.02 2.75V8.4h1.02v4.4z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">LINE</p>
+                            <p class="text-base">rubsarb.production <span class="text-slate-400 text-base ">(093-546-4497)</span></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 pb-6 sm:pb-0 border-b sm:border-b-0 border-slate-100">
+                        <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white flex-shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">TikTok Line</p>
+                            <p class="text-base">rubsarb.short <span class="text-slate-400 text-base">(093-549-2964)</span></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 pb-6 sm:pb-0 border-b sm:border-b-0 border-slate-100">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white flex-shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">สั่งซื้อสินค้า Rubsarb</p>
+                            <a href="https://www.facebook.com/rubsarbshop" target="_blank" class="text-base hover:underline break-all">
+                                facebook.com/rubsarbshop
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 sm:col-span-2">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white flex-shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">แฟนเพจ</p>
+                            <div class="flex flex-wrap gap-x-4 gap-y-1">
+                                <a href="https://www.facebook.com/Rubsarb" target="_blank" class="text-base hover:underline">
+                                    facebook.com/Rubsarb
+                                </a>
+                                <a href="https://www.facebook.com/gg.kasemsarn" target="_blank" class="text-base hover:underline">
+                                    facebook.com/gg.kasemsarn
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="bg-slate-900 text-slate-400 text-sm py-8 text-center">
+        © 2026 RUBSARB Production Co., Ltd. — All rights reserved.
+    </footer>
+
+    <script>
+        // เมนูมือถือ
+        document.getElementById('menu-btn').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Scroll reveal animation
+        const revealEls = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealEls.forEach((el) => observer.observe(el));
+
+         // ปิดเมนูมือถือเมื่อกดลิงก์ในเมนู
+        document.querySelectorAll('#mobile-menu a').forEach((link) => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Stat counter animation
+        function formatNumber(value, format) {
+            if (format === 'compact') {
+                if (value >= 1000000) return (value / 1000000).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1') + ' ล้าน';
+                if (value >= 1000) return (value / 1000).toFixed(1).replace(/\.0$/, '') + ' พัน';
+                return Math.round(value).toLocaleString('en-US');
+            }
+            return Math.round(value).toLocaleString('en-US');
+        }
+
+        function animateStat(el) {
+            const target = parseFloat(el.dataset.target);
+            const format = el.dataset.format || 'int';
+            const suffix = el.dataset.suffix || '';
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function tick(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+                const current = target * eased;
+                el.textContent = formatNumber(current, format) + (progress === 1 ? suffix : '');
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+
+        const statEls = document.querySelectorAll('.stat-number');
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    animateStat(entry.target);
+                    statObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statEls.forEach((el) => statObserver.observe(el));
+
+        // Toggle แสดง/ซ่อนสมาชิกเพิ่มเติม
+        function toggleMembers() {
+            const extra = document.getElementById('extra-members');
+            const text = document.getElementById('toggle-members-text');
+            const icon = document.getElementById('toggle-members-icon');
+            const isHidden = extra.classList.contains('hidden');
+
+            if (isHidden) {
+                extra.classList.remove('hidden');
+                extra.classList.add('contents');
+                text.textContent = 'แสดงน้อยลง';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                extra.classList.add('hidden');
+                extra.classList.remove('contents');
+                text.textContent = 'ดูสมาชิกทั้งหมด';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+    </script>
+
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+</body>
+</html>
