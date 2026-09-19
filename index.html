@@ -66,10 +66,7 @@
             flex-shrink: 0;
         }
         .category-tooltip {
-            position: absolute;
-            bottom: calc(100% + 12px);
-            left: 50%;
-            transform: translateX(-50%) translateY(6px);
+            position: fixed;
             background: #ffffff;
             color: #0f172a;
             padding: 6px 16px;
@@ -79,23 +76,13 @@
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
+            transition: opacity 0.2s ease;
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
-            z-index: 30;
+            z-index: 9999;
+            transform: translate(-50%, -8px);
         }
-        .category-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 6px;
-            border-style: solid;
-            border-color: #ffffff transparent transparent transparent;
-        }
-        .category-item:hover .category-tooltip {
+        .category-tooltip.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
         }
         .category-item:hover .category-avatar {
             transform: scale(1.08);
@@ -189,21 +176,21 @@
     <!-- ============ CHANNEL STATS ============ -->
     <section id="stats" class="bg-white pt-16 pb-8 reveal">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-3 gap-6 sm:gap-12">
+            <div class="grid grid-cols-3 divide-x divide-slate-200">
 
-                <div class="text-center">
-                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900" data-target="1710000" data-suffix="+" data-format="compact">0</p>
-                    <p class="text-slate-400 mt-2 text-xs font-medium uppercase tracking-widest">ผู้ติดตาม</p>
+                <div class="text-center px-2 sm:px-6">
+                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900 tabular-nums" data-target="1710000" data-suffix="+" data-format="compact">0</p>
+                    <p class="text-slate-400 mt-2 text-[11px] sm:text-xs font-medium tracking-wide">ผู้ติดตาม</p>
                 </div>
 
-                <div class="text-center">
-                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900" data-target="2431" data-format="int">0</p>
-                    <p class="text-slate-400 mt-2 text-xs font-medium uppercase tracking-widest">วิดีโอทั้งหมด</p>
+                <div class="text-center px-2 sm:px-6">
+                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900 tabular-nums" data-target="2431" data-format="int">0</p>
+                    <p class="text-slate-400 mt-2 text-[11px] sm:text-xs font-medium tracking-wide">วิดีโอทั้งหมด</p>
                 </div>
 
-                <div class="text-center">
-                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900" data-target="1049988944" data-format="compact">0</p>
-                    <p class="text-slate-400 mt-2 text-xs font-medium uppercase tracking-widest">การดูรวม</p>
+                <div class="text-center px-2 sm:px-6">
+                    <p class="stat-number text-xl sm:text-3xl font-bold tracking-tight text-slate-900 tabular-nums" data-target="1049988944" data-format="compact">0</p>
+                    <p class="text-slate-400 mt-2 text-[11px] sm:text-xs font-medium tracking-wide">การดูรวม</p>
                 </div>
 
             </div>
@@ -947,7 +934,7 @@
                     data-name="Jersey – 10 Years"
                     data-desc="เสื้อ jersey รุ่นครบรอบ 10 ปี"
                     data-images='["/assets/images/shop/เจอซี่3.jpg","/assets/images/shop/เจอซี่2.jpg","/assets/images/shop/เจอซี่4.jpg","/assets/images/shop/เจอซี่5.jpg","/assets/images/shop/เจอซี่6.jpg","/assets/images/shop/เจอซี่7.jpg","/assets/images/shop/เจอซี่8.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
+                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
                 <div class="aspect-square bg-slate-100 overflow-hidden">
                     <img src="/assets/images/shop/เจอซี่3.jpg" alt="RUBSARB Sticker Pack"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -962,7 +949,7 @@
                     data-name="3rd eye view T-shirt"
                     data-desc="เสื้อ “3rd eye view T-shirt”"
                     data-images='["/assets/images/shop/3ตา3.jpg","/assets/images/shop/3ตา2.jpg","/assets/images/shop/3ตา1.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
+                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
                 <div class="aspect-square bg-slate-100 overflow-hidden">
                     <img src="/assets/images/shop/3ตา3.jpg" alt="RUBSARB Cap"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -977,7 +964,7 @@
                     data-name="รักจอร์จ"
                     data-desc="เสื้อและกางเกง รักจอร์จ"
                     data-images='["/assets/images/shop/รักจอร์จ1.jpg","/assets/images/shop/รักจอร์จ9.jpg","/assets/images/shop/รักจอร์จ2.jpg","/assets/images/shop/รักจอร์จ3.jpg","/assets/images/shop/รักจอร์จ4.jpg","/assets/images/shop/รักจอร์จ5.jpg","/assets/images/shop/รักจอร์จ6.jpg","/assets/images/shop/รักจอร์จ7.jpg","/assets/images/shop/รักจอร์จ8.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
+                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
                 <div class="aspect-square bg-slate-100 overflow-hidden">
                     <img src="/assets/images/shop/รักจอร์จ1.jpg" alt="รักจอร์จ"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -992,7 +979,7 @@
                     data-name="Rubsarb prod. FC"
                     data-desc="เสื้อรับทราบเบสบอล”"
                     data-images='["/assets/images/shop/รับทราบเบสบอล1.jpg","/assets/images/shop/รับทราบเบสบอล2.jpg","/assets/images/shop/รับทราบเบสบอล3.jpg","/assets/images/shop/รับทราบเบสบอล4.jpg","/assets/images/shop/รับทราบเบสบอล5.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
+                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
                 <div class="aspect-square bg-slate-100 overflow-hidden">
                     <img src="/assets/images/shop/รับทราบเบสบอล1.jpg" alt="RUBSARB Cap"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -1445,6 +1432,23 @@
                 if (e.key === 'ArrowRight') modalNav(1);
             });
         })();
+
+        // ===== Category tooltip (JS-driven, ไม่พึ่ง CSS hover) =====
+        document.querySelectorAll('.category-item').forEach((item) => {
+            const tooltip = item.querySelector('.category-tooltip');
+            if (!tooltip) return;
+
+            item.addEventListener('mouseenter', () => {
+                const rect = item.getBoundingClientRect();
+                tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+                tooltip.style.top = rect.top + 'px';
+                tooltip.classList.add('show');
+            });
+
+            item.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('show');
+            });
+        });
     </script>
 
     <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
