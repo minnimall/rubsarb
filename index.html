@@ -91,6 +91,94 @@
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
         }
+
+        /* ===== Shop Cover Flow ===== */
+        .coverflow-stage {
+            position: relative;
+            height: 380px;
+            perspective: 1400px;
+            perspective-origin: 50% 50%;
+            touch-action: pan-y;
+        }
+        @media (min-width: 640px) {
+            .coverflow-stage { height: 440px; }
+        }
+        .coverflow-track {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d;
+        }
+        .coverflow-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 220px;
+            aspect-ratio: 1 / 1;
+            margin-top: -110px;
+            margin-left: -110px;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1);
+            will-change: transform, opacity;
+            transition: transform 0.55s cubic-bezier(.22,.9,.36,1), opacity 0.55s ease, box-shadow 0.55s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+        @media (min-width: 640px) {
+            .coverflow-card { width: 260px; margin-top: -130px; margin-left: -130px; }
+        }
+        .coverflow-card.is-active {
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+        }
+        .coverflow-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        .coverflow-card .coverflow-caption {
+            position: absolute;
+            bottom: 0;
+            inset-inline: 0;
+            padding: 0.75rem 0.9rem 0.7rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.15) 70%, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .coverflow-card.is-active .coverflow-caption {
+            opacity: 1;
+        }
+        .coverflow-nav-btn {
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 9999px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .coverflow-nav-btn:hover {
+            background: #0f172a;
+            color: white;
+            transform: scale(1.06);
+        }
+        .coverflow-dot {
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 9999px;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        .coverflow-dot.is-active {
+            width: 1.3rem;
+            background: #0f172a;
+        }
     </style>
 </head>
 <body class="bg-white text-slate-900">
@@ -865,131 +953,129 @@
                 <span class="text-xs font-semibold uppercase tracking-widest text-slate-400">Shop</span>
             </div>
             <h2 class="text-3xl sm:text-4xl font-bold mb-2">สินค้า Rubsarb</h2>
-            <p class="text-slate-500 mb-12">เสื้อผ้าและของที่รีะลึกจากช่อง Rubsarb สั่งซื้อได้ผ่านเพจ Facebook</p>
+            <p class="text-slate-500 mb-10">เสื้อผ้าและของที่รีะลึกจากช่อง Rubsarb สั่งซื้อได้ผ่านเพจ Facebook</p>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 py-4">
+            <!-- ===== Cover Flow Carousel ===== -->
+            <div class="relative">
 
-            <!-- Product card template — คัดลอกบล็อกนี้สำหรับแต่ละสินค้า -->
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="Neighbor's Shirt – 12 Years"
-                    data-desc="เสื้อเพื่อนบ้าน 12 ปี"
-                    data-images='["/assets/images/shop/เสื้อ12ปี1.jpg","/assets/images/shop/เสื้อ12ปี2.jpg","/assets/images/shop/เสื้อ12ปี4.jpg","/assets/images/shop/เสื้อ12ปี3.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/เสื้อ12ปี1.jpg" alt="Suaydedok Jersey"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">"Neighbor's Shirt" – 12 Years</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อเพื่อนบ้าน 12 ปี</p>
-                </div>
-            </button>
+                <div id="shop-coverflow" class="coverflow-stage">
+                    <div id="shop-coverflow-track" class="coverflow-track">
 
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="TABLE TEA"
-                    data-desc="ช้อนโต๊ะชา"
-                    data-images='["/assets/images/shop/เสื้อช้อนโต๊ะชา.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา2.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา3.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา4.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา5.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/เสื้อช้อนโต๊ะชา.jpg" alt="TABLE TEA"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">TABLE TEA</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อช้อนโต๊ะชา</p>
-                </div>
-            </button>
+                        <!-- Product card template — คัดลอกบล็อกนี้สำหรับแต่ละสินค้า -->
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="Neighbor's Shirt – 12 Years"
+                                data-desc="เสื้อเพื่อนบ้าน 12 ปี"
+                                data-images='["/assets/images/shop/เสื้อ12ปี1.jpg","/assets/images/shop/เสื้อ12ปี2.jpg","/assets/images/shop/เสื้อ12ปี4.jpg","/assets/images/shop/เสื้อ12ปี3.jpg"]'>
+                            <img src="/assets/images/shop/เสื้อ12ปี1.jpg" alt="Suaydedok Jersey">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">"Neighbor's Shirt" – 12 Years</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อเพื่อนบ้าน 12 ปี</p>
+                            </div>
+                        </button>
 
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="Baseball Jerseys"
-                    data-desc="เสื้อBaseball - สวยดีอีดอก"
-                    data-images='["/assets/images/shop/สวยดี1.jpg","/assets/images/shop/สวยดี2.jpg","/assets/images/shop/สวยดี3.jpg","/assets/images/shop/สวยดี4.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/สวยดี1.jpg" alt="RUBSARB Cap"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">Baseball Jerseys</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อBaseball - สวยดีอีดอก</p>
-                </div>
-            </button>
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="TABLE TEA"
+                                data-desc="ช้อนโต๊ะชา"
+                                data-images='["/assets/images/shop/เสื้อช้อนโต๊ะชา.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา2.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา3.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา4.jpg","/assets/images/shop/เสื้อช้อนโต๊ะชา5.jpg"]'>
+                            <img src="/assets/images/shop/เสื้อช้อนโต๊ะชา.jpg" alt="TABLE TEA">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">TABLE TEA</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อช้อนโต๊ะชา</p>
+                            </div>
+                        </button>
 
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="Khao Din"
-                    data-desc="เสื้อเขาดิน"
-                    data-images='["/assets/images/shop/เขาดิน3.jpg","/assets/images/shop/เขาดิน2.jpg","/assets/images/shop/เขาดิน1.jpg","/assets/images/shop/เขาดิน4.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/เขาดิน3.jpg" alt="RUBSARB Sticker Pack"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">Khao Din</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อเขาดิน</p>
-                </div>
-            </button>
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="Baseball Jerseys"
+                                data-desc="เสื้อBaseball - สวยดีอีดอก"
+                                data-images='["/assets/images/shop/สวยดี1.jpg","/assets/images/shop/สวยดี2.jpg","/assets/images/shop/สวยดี3.jpg","/assets/images/shop/สวยดี4.jpg"]'>
+                            <img src="/assets/images/shop/สวยดี1.jpg" alt="RUBSARB Cap">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">Baseball Jerseys</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อBaseball - สวยดีอีดอก</p>
+                            </div>
+                        </button>
 
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="Jersey – 10 Years"
-                    data-desc="เสื้อ jersey รุ่นครบรอบ 10 ปี"
-                    data-images='["/assets/images/shop/เจอซี่3.jpg","/assets/images/shop/เจอซี่2.jpg","/assets/images/shop/เจอซี่4.jpg","/assets/images/shop/เจอซี่5.jpg","/assets/images/shop/เจอซี่6.jpg","/assets/images/shop/เจอซี่7.jpg","/assets/images/shop/เจอซี่8.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/เจอซี่3.jpg" alt="RUBSARB Sticker Pack"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">Jersey – 10 Years</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อ jersey รุ่น "ครบรอบ 10 ปี"</p>
-                </div>
-            </button>
-            
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="3rd eye view T-shirt"
-                    data-desc="เสื้อ “3rd eye view T-shirt”"
-                    data-images='["/assets/images/shop/3ตา3.jpg","/assets/images/shop/3ตา2.jpg","/assets/images/shop/3ตา1.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/3ตา3.jpg" alt="RUBSARB Cap"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">3rd eye view T-shirt</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อ “3rd eye view T-shirt”</p>
-                </div>
-            </button>
-            
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="รักจอร์จ"
-                    data-desc="เสื้อและกางเกง รักจอร์จ"
-                    data-images='["/assets/images/shop/รักจอร์จ1.jpg","/assets/images/shop/รักจอร์จ9.jpg","/assets/images/shop/รักจอร์จ2.jpg","/assets/images/shop/รักจอร์จ3.jpg","/assets/images/shop/รักจอร์จ4.jpg","/assets/images/shop/รักจอร์จ5.jpg","/assets/images/shop/รักจอร์จ6.jpg","/assets/images/shop/รักจอร์จ7.jpg","/assets/images/shop/รักจอร์จ8.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 -rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/รักจอร์จ1.jpg" alt="รักจอร์จ"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">รักจอร์จ</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อและกางเกง รักจอร์จ</p>
-                </div>
-            </button>
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="Khao Din"
+                                data-desc="เสื้อเขาดิน"
+                                data-images='["/assets/images/shop/เขาดิน3.jpg","/assets/images/shop/เขาดิน2.jpg","/assets/images/shop/เขาดิน1.jpg","/assets/images/shop/เขาดิน4.jpg"]'>
+                            <img src="/assets/images/shop/เขาดิน3.jpg" alt="RUBSARB Sticker Pack">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">Khao Din</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อเขาดิน</p>
+                            </div>
+                        </button>
 
-            <button type="button" onclick="openProductModal(this)"
-                    data-name="Rubsarb prod. FC"
-                    data-desc="เสื้อรับทราบเบสบอล”"
-                    data-images='["/assets/images/shop/รับทราบเบสบอล1.jpg","/assets/images/shop/รับทราบเบสบอล2.jpg","/assets/images/shop/รับทราบเบสบอล3.jpg","/assets/images/shop/รับทราบเบสบอล4.jpg","/assets/images/shop/รับทราบเบสบอล5.jpg"]'
-                    class="group text-left rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 rotate-3 hover:rotate-0 hover:scale-105 hover:z-10">
-                <div class="aspect-square bg-slate-100 overflow-hidden">
-                    <img src="/assets/images/shop/รับทราบเบสบอล1.jpg" alt="RUBSARB Cap"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="Jersey – 10 Years"
+                                data-desc="เสื้อ jersey รุ่นครบรอบ 10 ปี"
+                                data-images='["/assets/images/shop/เจอซี่3.jpg","/assets/images/shop/เจอซี่2.jpg","/assets/images/shop/เจอซี่4.jpg","/assets/images/shop/เจอซี่5.jpg","/assets/images/shop/เจอซี่6.jpg","/assets/images/shop/เจอซี่7.jpg","/assets/images/shop/เจอซี่8.jpg"]'>
+                            <img src="/assets/images/shop/เจอซี่3.jpg" alt="RUBSARB Sticker Pack">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">Jersey – 10 Years</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อ jersey รุ่น "ครบรอบ 10 ปี"</p>
+                            </div>
+                        </button>
+
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="3rd eye view T-shirt"
+                                data-desc="เสื้อ “3rd eye view T-shirt”"
+                                data-images='["/assets/images/shop/3ตา3.jpg","/assets/images/shop/3ตา2.jpg","/assets/images/shop/3ตา1.jpg"]'>
+                            <img src="/assets/images/shop/3ตา3.jpg" alt="RUBSARB Cap">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">3rd eye view T-shirt</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อ “3rd eye view T-shirt”</p>
+                            </div>
+                        </button>
+
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="รักจอร์จ"
+                                data-desc="เสื้อและกางเกง รักจอร์จ"
+                                data-images='["/assets/images/shop/รักจอร์จ1.jpg","/assets/images/shop/รักจอร์จ9.jpg","/assets/images/shop/รักจอร์จ2.jpg","/assets/images/shop/รักจอร์จ3.jpg","/assets/images/shop/รักจอร์จ4.jpg","/assets/images/shop/รักจอร์จ5.jpg","/assets/images/shop/รักจอร์จ6.jpg","/assets/images/shop/รักจอร์จ7.jpg","/assets/images/shop/รักจอร์จ8.jpg"]'>
+                            <img src="/assets/images/shop/รักจอร์จ1.jpg" alt="รักจอร์จ">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">รักจอร์จ</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อและกางเกง รักจอร์จ</p>
+                            </div>
+                        </button>
+
+                        <button type="button"
+                                class="coverflow-card"
+                                data-name="Rubsarb prod. FC"
+                                data-desc="เสื้อรับทราบเบสบอล”"
+                                data-images='["/assets/images/shop/รับทราบเบสบอล1.jpg","/assets/images/shop/รับทราบเบสบอล2.jpg","/assets/images/shop/รับทราบเบสบอล3.jpg","/assets/images/shop/รับทราบเบสบอล4.jpg","/assets/images/shop/รับทราบเบสบอล5.jpg"]'>
+                            <img src="/assets/images/shop/รับทราบเบสบอล1.jpg" alt="RUBSARB Cap">
+                            <div class="coverflow-caption">
+                                <p class="text-white font-semibold text-sm truncate">Rubsarb prod. FC</p>
+                                <p class="text-white/70 text-xs mt-0.5">เสื้อรับทราบเบสบอล</p>
+                            </div>
+                        </button>
+
+                    </div>
                 </div>
-                <div class="p-4">
-                    <p class="font-semibold text-sm truncate">Rubsarb prod. FC</p>
-                    <p class="text-slate-400 text-xs mt-1">เสื้อรับทราบเบสบอล</p>
-                </div>
-            </button>
-        </div>
+
+                <!-- ปุ่มซ้าย/ขวา -->
+                <button onclick="shopCoverflowMove(-1)" aria-label="สินค้าก่อนหน้า"
+                        class="coverflow-nav-btn absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 z-20">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button onclick="shopCoverflowMove(1)" aria-label="สินค้าถัดไป"
+                        class="coverflow-nav-btn absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 z-20">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <!-- Dots -->
+                <div id="shop-coverflow-dots" class="flex justify-center items-center gap-2 mt-6"></div>
+
+            </div>
+
             <div class="text-center mt-10">
                 <a href="https://www.facebook.com/rubsarbshop" target="_blank" rel="noopener noreferrer"
                 class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 font-semibold text-sm hover:border-slate-900 hover:bg-slate-50 transition">
@@ -1091,10 +1177,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- <div class="mt-5 rounded-2xl border border-slate-200 bg-white overflow-hidden sm:col-span-2 aspect-[1.47]">
-                    <div class="tenor-gif-embed" data-postid="3522992730246261066" data-share-method="host" data-aspect-ratio="1.47337" data-width="100%"><a href="https://tenor.com/view/genghiskhanz-j3cha-rubsarb-gif-3522992730246261066">Genghiskhanz J3cha GIF</a>from <a href="https://tenor.com/search/genghiskhanz-gifs">Genghiskhanz GIFs</a></div>
-                </div> -->
 
             </div>
         </div>
@@ -1431,6 +1513,128 @@
                 if (e.key === 'ArrowLeft') modalNav(-1);
                 if (e.key === 'ArrowRight') modalNav(1);
             });
+        })();
+
+        // ===== Shop Cover Flow =====
+        (function () {
+            const stage = document.getElementById('shop-coverflow');
+            const track = document.getElementById('shop-coverflow-track');
+            const dotsWrap = document.getElementById('shop-coverflow-dots');
+            if (!stage || !track) return;
+
+            const cards = Array.from(track.querySelectorAll('.coverflow-card'));
+            const total = cards.length;
+            if (total === 0) return;
+
+            let current = 0; // เริ่มที่การ์ดแรก
+
+            // spacing/rotation ปรับตามความกว้างจอ
+            function getSettings() {
+                const w = window.innerWidth;
+                if (w < 640) {
+                    return { spacing: 92, angle: 42, depth: 140, scaleStep: 0.16, maxVisible: 2 };
+                }
+                return { spacing: 160, angle: 45, depth: 200, scaleStep: 0.14, maxVisible: 3 };
+            }
+
+            // สร้าง dots
+            cards.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'coverflow-dot';
+                dot.setAttribute('aria-label', `สินค้าชิ้นที่ ${i + 1}`);
+                dot.addEventListener('click', () => goTo(i));
+                dotsWrap.appendChild(dot);
+            });
+            const dots = dotsWrap.querySelectorAll('.coverflow-dot');
+
+            function render() {
+                const { spacing, angle, depth, scaleStep, maxVisible } = getSettings();
+
+                cards.forEach((card, i) => {
+                    const offset = i - current;
+                    const abs = Math.abs(offset);
+
+                    card.classList.toggle('is-active', offset === 0);
+
+                    if (abs > maxVisible) {
+                        const farX = offset < 0 ? -9999 : 9999;
+                        card.style.opacity = '0';
+                        card.style.pointerEvents = 'none';
+                        card.style.transform = `translateX(${farX}px)`;
+                        card.style.zIndex = '0';
+                        return;
+                    }
+
+                    const translateX = offset * spacing;
+                    const rotateY = offset === 0 ? 0 : (offset < 0 ? angle : -angle);
+                    const translateZ = offset === 0 ? 0 : -depth;
+                    const scale = Math.max(1 - abs * scaleStep, 0.55);
+                    const opacity = 1 - abs * 0.22;
+
+                    card.style.opacity = String(Math.max(opacity, 0));
+                    card.style.pointerEvents = 'auto';
+                    card.style.zIndex = String(100 - abs);
+                    card.style.transform =
+                        `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+                });
+
+                dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+            }
+
+            function goTo(index) {
+                current = Math.max(0, Math.min(total - 1, index));
+                render();
+            }
+
+            window.shopCoverflowMove = function (dir) {
+                goTo(current + dir);
+            };
+
+            // คลิกการ์ดที่ไม่ใช่การ์ดกลาง -> เลื่อนมาให้เป็นตัวกลางก่อน / คลิกการ์ดกลาง -> เปิด modal สินค้า
+            cards.forEach((card, i) => {
+                card.addEventListener('click', (e) => {
+                    if (i === current) {
+                        if (typeof openProductModal === 'function') openProductModal(card);
+                    } else {
+                        goTo(i);
+                    }
+                });
+            });
+
+            // Swipe / Drag
+            let startX = 0;
+            let isDragging = false;
+            let dragMoved = false;
+
+            stage.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                dragMoved = false;
+                startX = e.clientX;
+            });
+            window.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                if (Math.abs(e.clientX - startX) > 8) dragMoved = true;
+            });
+            window.addEventListener('pointerup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                if (!dragMoved) return;
+                const deltaX = e.clientX - startX;
+                if (Math.abs(deltaX) > 40) {
+                    goTo(current + (deltaX < 0 ? 1 : -1));
+                }
+            });
+
+            // Keyboard nav เมื่อโฟกัสอยู่ในโซนนี้
+            stage.setAttribute('tabindex', '0');
+            stage.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') goTo(current - 1);
+                if (e.key === 'ArrowRight') goTo(current + 1);
+            });
+
+            window.addEventListener('resize', render);
+
+            render();
         })();
 
         // ===== Category tooltip (JS-driven, ไม่พึ่ง CSS hover) =====
